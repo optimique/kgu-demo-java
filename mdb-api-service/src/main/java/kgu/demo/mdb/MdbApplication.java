@@ -7,7 +7,7 @@ import org.springframework.cloud.netflix.zuul.EnableZuulProxy;
 
 @SpringBootApplication
 @EnableZuulProxy
-class MdbApplication {
+public class MdbApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(MdbApplication.class, args);
