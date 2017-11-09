@@ -6,14 +6,15 @@ management:
     enabled: false    # /routes 및 full actuactor 활성화.
 
 zuul:
-#  include-debug-header: true   # response header 에 debug header 추가.
-#  debug:
-#    request: true              # /trace 에서 request history 출력.
-  forceOriginalQueryStringEncoding: true
+  include-debug-header: true   # response header 에 debug header 추가.
+  debug:
+    request: true              # /trace 에서 request history 출력.
+  forceOriginalQueryStringEncoding: false
   routes:
     THE-MOVIE-DB:
       path: /mdb-api/v3/**
       url: https://api.themoviedb.org/3
+      api-key: "b990d5219b5119ee0153f3bde7b15300"
 
 logging:
   level:
