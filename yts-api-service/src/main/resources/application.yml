@@ -1,0 +1,21 @@
+server:
+  port: 8020
+
+management:
+  security:
+    enabled: false    # /routes 및 full actuactor 활성화.
+
+zuul:
+#  include-debug-header: true   # response header 에 debug header 추가.
+#  debug:
+#    request: true              # /trace 에서 request history 출력.
+  forceOriginalQueryStringEncoding: true
+  routes:
+    YTS-AG:
+      path: /yts-api/v2/**
+      url: https://yts.ag/api/v2
+
+logging:
+  level:
+    org.springframework.cloud.netflix.zuul: INFO
+    apigw.zuul: INFO
