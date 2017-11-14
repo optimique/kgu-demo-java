@@ -9,7 +9,10 @@ import org.springframework.cloud.netflix.zuul.filters.support.FilterConstants;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
+import java.util.UUID;
 
 @Component
 @Slf4j
@@ -41,6 +44,13 @@ public class OccasionalErrorPostFilter extends ZuulFilter {
 
     @Override
     public Object run() {
+        RequestContext ctx = RequestContext.getCurrentContext();
+        if( ctx.getResponseStatusCode() == 429 ) {
+            String longString = longTask();
+            ctx.setResponseStatusCode( 500 );
+            ctx.setResponseBody("{\"status\":\"no limit\",\"message\":\""+longString+"\"}");
+            return null;
+        }
 
         String envSuccessRate = env.getProperty("success-rate");
 
@@ -58,12 +68,19 @@ public class OccasionalErrorPostFilter extends ZuulFilter {
         }
 
         if (forcesFail) {
-            RequestContext ctx = RequestContext.getCurrentContext();
             ctx.setResponseStatusCode(500);
             ctx.setResponseBody("{\"status\":\"error\"}");
 //            throw new RuntimeException("occasional error, success-rate=" + successRate);
         }
 
         return null;
+    }
+
+    private String longTask() {
+        Map<String, String> map = new HashMap<>();
+        for ( int i = 0 ; i < 10000 ; i++ ) {
+            map.put(String.valueOf(i), UUID.randomUUID().toString());
+        }
+        return map.toString();
     }
 }
