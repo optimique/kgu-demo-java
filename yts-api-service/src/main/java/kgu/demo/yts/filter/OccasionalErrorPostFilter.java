@@ -15,6 +15,12 @@ import java.util.Random;
 @Slf4j
 public class OccasionalErrorPostFilter extends ZuulFilter {
 
+    private Random randomGenerator;
+
+    public OccasionalErrorPostFilter() {
+        randomGenerator = new Random();
+    }
+
     @Autowired
     private Environment env;
 
@@ -49,8 +55,7 @@ public class OccasionalErrorPostFilter extends ZuulFilter {
 
         if (StringUtils.isNotBlank(envSuccessRate)) {
             try {
-                Random randomGenerator = new Random();
-                double random = randomGenerator.nextDouble();
+                double random = this.randomGenerator.nextDouble();
                 successRate = Double.parseDouble(envSuccessRate);
                 forcesFail = (successRate < random);
             } catch (Exception ignored) {
