@@ -58,7 +58,10 @@ public class OccasionalErrorPostFilter extends ZuulFilter {
         }
 
         if (forcesFail) {
-            throw new RuntimeException("occasional error, success-rate=" + successRate);
+            RequestContext ctx = RequestContext.getCurrentContext();
+            ctx.setResponseStatusCode(500);
+            ctx.setResponseBody("{\"status\":\"error\"}");
+//            throw new RuntimeException("occasional error, success-rate=" + successRate);
         }
 
         return null;

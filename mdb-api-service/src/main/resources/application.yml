@@ -6,9 +6,9 @@ management:
     enabled: false    # /routes 및 full actuactor 활성화.
 
 zuul:
-  include-debug-header: true   # response header 에 debug header 추가.
-  debug:
-    request: true              # /trace 에서 request history 출력.
+#  include-debug-header: true   # response header 에 debug header 추가.
+#  debug:
+#    request: true              # /trace 에서 request history 출력.
   forceOriginalQueryStringEncoding: false
   routes:
     THE-MOVIE-DB:
